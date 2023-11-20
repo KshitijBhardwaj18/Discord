@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server"
+import {MemberRole} from "@prisma/client"
 
 export async function POST(req: Request){
     try{
@@ -27,7 +28,7 @@ export async function POST(req: Request){
 
                 members: {
                     create: [
-                        {profileId: profile.id, role}
+                        {profileId: profile.id, role: MemberRole.ADMIN}
                     ]
                 }
             }
@@ -36,7 +37,7 @@ export async function POST(req: Request){
 
 
 
-
+        return NextResponse.json(server);
     }catch (error) {
         console.log("[SERVERS_POST]", error);
         return new NextResponse("Internal Error", { status: 500});
